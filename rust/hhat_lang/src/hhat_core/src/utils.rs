@@ -76,7 +76,7 @@ pub fn find_phf_params(strs: Vec<String>) -> Option<(u64, u32)> {
 /// `a` value as u64 number, used to retrieve the hash whenever needed, and the `r`
 /// value as u32 number, also used to retrieve the hash for the string
 pub fn gen_phf(
-    mut values: Vec<String>,
+    values: Vec<String>,
     vec_size: usize,
 ) -> Option<(Vec<Option<String>>, u64, u32)> {
     let n: u64 = values.len() as u64;

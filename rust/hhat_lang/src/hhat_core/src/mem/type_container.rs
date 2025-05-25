@@ -37,7 +37,6 @@ pub enum TypeDataStructure {
     Union { members: Vec<UnionMember> },
 }
 
-union X {}
 
 enum ConstantMember {
     Constant,
