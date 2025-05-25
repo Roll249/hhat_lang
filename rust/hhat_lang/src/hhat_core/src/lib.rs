@@ -3,7 +3,7 @@
 mod instr;
 mod mem;
 mod utils;
-
+mod data;
 //----------------------
 // LET THE TESTS BEGIN
 //----------------------
@@ -26,7 +26,7 @@ mod tests {
         let block_ptr2 = mem::alloc::alloc_memblock(block_size, align);
 
         let ptr1: NonNull<u8> = match block_ptr1 {
-            Ok(x) => unsafe {
+            Ok(x) => {
                 println!(
                     "  - allocated memory 1! {:} , {:}",
                     x.as_ptr() as u8,
@@ -40,7 +40,7 @@ mod tests {
         };
 
         let ptr2: NonNull<u8> = match block_ptr2 {
-            Ok(x) => unsafe {
+            Ok(x) => {
                 println!(
                     "  - allocated memory 2! {:}, {:}",
                     x.as_ptr() as u8,
@@ -54,7 +54,7 @@ mod tests {
         let mut memblock: mem::base::MemBlock = match mem::base::MemBlock::new(block_size) {
             Ok(x) => {
                 assert_eq!(x.get_size(), block_size);
-                unsafe {
+                {
                     println!("  - memblock ptr is equal to {:}", block_size + 16);
                     x
                 }
