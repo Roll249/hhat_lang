@@ -5,7 +5,7 @@ from collections import OrderedDict
 from collections.abc import Mapping
 from typing import Any, Iterator
 
-from hhat_lang.core.data.core import Symbol, CompositeSymbol
+from hhat_lang.core.data.core import CompositeSymbol, Symbol
 from hhat_lang.core.error_handlers.errors import ErrorHandler
 
 
@@ -29,7 +29,9 @@ class SymbolOrdered(Mapping):
             self._data[key] = value
 
         else:
-            raise ValueError(f"{key} ({type(key)}) is not valid key for data structures.")
+            raise ValueError(
+                f"{key} ({type(key)}) is not valid key for data structures."
+            )
 
     def __getitem__(self, key: str | Symbol | CompositeSymbol) -> Any:
         if isinstance(key, str):
@@ -68,8 +70,7 @@ class Result(ABC):
         self.value = value
 
     @abstractmethod
-    def result(self) -> Any:
-        ...
+    def result(self) -> Any: ...
 
 
 class Ok(Result):
@@ -84,4 +85,3 @@ class Error(Result):
 
     def result(self) -> ErrorHandler:
         return self.value
-

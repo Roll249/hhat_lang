@@ -8,8 +8,20 @@ from __future__ import annotations
 from typing import Any, Iterable
 
 from hhat_lang.core.code.ast import AST
-from hhat_lang.core.code.ir import BaseIR, BaseFnIR, InstrIR, ArgsIR, InstrIRFlag, BlockIR
-from hhat_lang.core.data.core import Symbol, CompositeSymbol, CoreLiteral, CompositeLiteral
+from hhat_lang.core.code.ir import (
+    ArgsIR,
+    BaseFnIR,
+    BaseIR,
+    BlockIR,
+    InstrIR,
+    InstrIRFlag,
+)
+from hhat_lang.core.data.core import (
+    CompositeLiteral,
+    CompositeSymbol,
+    CoreLiteral,
+    Symbol,
+)
 
 
 class IRInstr(InstrIR):
@@ -25,11 +37,16 @@ class IRInstr(InstrIR):
 
 
 class IRArgs(ArgsIR):
-    def __init__(self, *args: Symbol | CompositeSymbol | CoreLiteral | CompositeLiteral):
-        if all(
-            isinstance(k, (Symbol, CompositeSymbol, CoreLiteral, CompositeLiteral))
-            for k in args
-        ) or len(args) == 0:
+    def __init__(
+        self, *args: Symbol | CompositeSymbol | CoreLiteral | CompositeLiteral
+    ):
+        if (
+            all(
+                isinstance(k, (Symbol, CompositeSymbol, CoreLiteral, CompositeLiteral))
+                for k in args
+            )
+            or len(args) == 0
+        ):
             self._args = args
 
 
@@ -45,6 +62,7 @@ class IRBlock(BlockIR):
 ################
 # IR BASE CODE #
 ################
+
 
 def compile_to_ir(code: AST) -> IR:
     pass
@@ -87,5 +105,4 @@ class IR(BaseIR):
         fn_type: Symbol | CompositeSymbol,
         fn_args: Any,
         body: IRBlock,
-    ) -> None:
-        ...
+    ) -> None: ...

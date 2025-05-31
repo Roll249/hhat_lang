@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from qiskit import qasm2, QuantumCircuit, transpile
-from qiskit.primitives.containers.pub_result import PubResult, DataBin
+from qiskit import QuantumCircuit, qasm2, transpile
+from qiskit.primitives.containers.pub_result import DataBin, PubResult
 
 # TODO: to set the configuration's simulator instead of a fixed simulator
 from qiskit_aer import AerSimulator
@@ -11,8 +11,8 @@ from qiskit_aer.primitives import SamplerV2 as Sampler
 
 from hhat_lang.core.data.core import Symbol, WorkingData
 from hhat_lang.core.error_handlers.errors import (
+    ErrorHandler,
     InvalidQuantumComputedResult,
-    ErrorHandler
 )
 
 
@@ -44,7 +44,9 @@ def sample_circuit(
     if job_res:
         pub_res: PubResult = job_res[0]
         databin: DataBin = pub_res.data
-        res = (getattr(databin, "c", None) or getattr(databin, "meas", None)).get_counts()
+        res = (
+            getattr(databin, "c", None) or getattr(databin, "meas", None)
+        ).get_counts()
         return res
 
     # job_res is None, then something went wrong
@@ -52,9 +54,7 @@ def sample_circuit(
 
 
 def execute_program(
-    code: str,
-    qdata: str | WorkingData,
-    debug: bool = False
+    code: str, qdata: str | WorkingData, debug: bool = False
 ) -> Any | ErrorHandler:
     """
     Execute the quantum program from a quantum data `qdata`. First, it is passed as a

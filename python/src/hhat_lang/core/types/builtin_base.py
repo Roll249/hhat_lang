@@ -3,17 +3,16 @@ from __future__ import annotations
 from collections import OrderedDict
 from typing import Any, Callable, Iterable
 
-from hhat_lang.core.data.core import CoreLiteral, WorkingData, Symbol
+from hhat_lang.core.data.core import CoreLiteral, Symbol, WorkingData
 from hhat_lang.core.data.variable import BaseDataContainer, VariableTemplate
 from hhat_lang.core.error_handlers.errors import (
+    CastError,
+    CastIntOverflowError,
+    CastNegToUnsignedError,
     ErrorHandler,
     TypeSingleError,
-    CastNegToUnsignedError,
-    CastIntOverflowError,
-    CastError,
 )
-from hhat_lang.core.types.abstract_base import BaseTypeDataStructure
-from hhat_lang.core.types.abstract_base import Size, QSize
+from hhat_lang.core.types.abstract_base import BaseTypeDataStructure, QSize, Size
 
 ###############
 # DEFINITIONS #
@@ -44,7 +43,9 @@ qint_types: set = {S_QINT, S_QU2, S_QU3, S_QU4}
 
 
 class BuiltinSingleDS(BaseTypeDataStructure):
-    def __init__(self, name: Symbol, bitsize: Size | None = None, qsize: QSize | None = None):
+    def __init__(
+        self, name: Symbol, bitsize: Size | None = None, qsize: QSize | None = None
+    ):
         super().__init__(name, is_builtin=True)
         self._type_container: list = [name]
         self._bitsize = bitsize

@@ -28,7 +28,7 @@ class BaseLowLevelQLang(ABC):
         idx: IndexManager,
         executor: BaseEvaluator,
         *_args: Any,
-        **_kwargs: Any
+        **_kwargs: Any,
     ):
         self._qdata = qvar
         self._code = code
@@ -37,21 +37,16 @@ class BaseLowLevelQLang(ABC):
         self._num_idxs = len(self._idx.in_use_by.get(self._qdata, []))
 
     @abstractmethod
-    def init_qlang(self) -> tuple[str, ...]:
-        ...
+    def init_qlang(self) -> tuple[str, ...]: ...
 
     @abstractmethod
-    def end_qlang(self) -> tuple[str, ...]:
-        ...
+    def end_qlang(self) -> tuple[str, ...]: ...
 
     @abstractmethod
-    def gen_instrs(self, *args: Any, **kwargs: Any) -> tuple[str, ...]:
-        ...
+    def gen_instrs(self, *args: Any, **kwargs: Any) -> tuple[str, ...]: ...
 
     @abstractmethod
-    def gen_program(self, *args: Any, **kwargs: Any) -> str:
-        ...
+    def gen_program(self, *args: Any, **kwargs: Any) -> str: ...
 
     @abstractmethod
-    def __call__(self, *args: Any, **kwargs: Any) -> Any:
-        ...
+    def __call__(self, *args: Any, **kwargs: Any) -> Any: ...

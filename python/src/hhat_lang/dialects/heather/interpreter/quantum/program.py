@@ -17,7 +17,8 @@ into `u32`. It also is valid for quantum variables::
 
 The quantum program workflow is as follows:
 
-- Instructions are analyzed according to the low level language and target backend support (lower level counterparts, LLC)
+- Instructions are analyzed according to the low level language and target backend 
+  support (lower level counterparts, LLC)
 
     - If classical instructions are supported, they will be handled by those
     - If not, they will fall back into this dialect's classical branch interpreter
@@ -42,7 +43,6 @@ from hhat_lang.core.execution.abstract_base import BaseEvaluator
 from hhat_lang.core.execution.abstract_program import BaseProgram
 from hhat_lang.core.lowlevel.abstract_qlang import BaseLowLevelQLang
 from hhat_lang.core.memory.core import IndexManager
-
 from hhat_lang.dialects.heather.code.simple_ir_builder.ir import IRBlock
 
 # TODO: the imports below must come from the config file, not hardcoded
@@ -59,7 +59,11 @@ class Program(BaseProgram):
         idx: IndexManager,
         block: IRBlock,
         executor: BaseEvaluator,
-        qlang: Type[BaseLowLevelQLang[WorkingData, IRBlock | BlockIR, IndexManager, BaseEvaluator]],
+        qlang: Type[
+            BaseLowLevelQLang[
+                WorkingData, IRBlock | BlockIR, IndexManager, BaseEvaluator
+            ]
+        ],
     ):
         if (
             isinstance(qdata, WorkingData)
@@ -73,7 +77,9 @@ class Program(BaseProgram):
             self._qlang = qlang(self._qdata, self._block, self._idx, self._executor)
 
         else:
-            raise ValueError(f"Quantum program got invalid parameters: {qdata=} | {idx=} {block=}")
+            raise ValueError(
+                f"Quantum program got invalid parameters: {qdata=} | {idx=} {block=}"
+            )
 
     def run(self, debug: bool = False) -> Any | ErrorHandler:
         qlang_code = self._qlang.gen_program()

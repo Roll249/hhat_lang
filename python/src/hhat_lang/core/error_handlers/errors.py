@@ -279,9 +279,7 @@ class StackEmptyError(ErrorHandler):
         super().__init__(ErrorCodes.STACK_EMPTY_ERROR)
 
     def __call__(self) -> str:
-        return (
-            f"[[{self.__class__.__name__}]]: Stack is empty."
-        )
+        return f"[[{self.__class__.__name__}]]: Stack is empty."
 
 
 class StackOverflowError(ErrorHandler):
@@ -289,9 +287,7 @@ class StackOverflowError(ErrorHandler):
         super().__init__(ErrorCodes.STACK_OVERFLOW_ERROR)
 
     def __call__(self) -> str:
-        return (
-            f"[[{self.__class__.__name__}]]: Stack overflow."
-        )
+        return f"[[{self.__class__.__name__}]]: Stack overflow."
 
 
 class HeapEmptyError(ErrorHandler):
@@ -299,9 +295,7 @@ class HeapEmptyError(ErrorHandler):
         super().__init__(ErrorCodes.HEAP_EMPTY_ERROR)
 
     def __call__(self) -> str:
-        return (
-            f"[[{self.__class__.__name__}]]: Heap is empty."
-        )
+        return f"[[{self.__class__.__name__}]]: Heap is empty."
 
 
 class HeapInvalidKeyError(ErrorHandler):
@@ -310,9 +304,7 @@ class HeapInvalidKeyError(ErrorHandler):
         self._key = key
 
     def __call__(self) -> str:
-        return (
-            f"[[{self.__class__.__name__}]]: key '{self._key}' is invalid."
-        )
+        return f"[[{self.__class__.__name__}]]: key '{self._key}' is invalid."
 
 
 class InvalidQuantumComputedResult(ErrorHandler):
@@ -321,9 +313,7 @@ class InvalidQuantumComputedResult(ErrorHandler):
         self._qdata = qdata
 
     def __call__(self) -> str:
-        return (
-            f"[[{self.__class__.__name__}]]: quantum data {self._qdata} produced invalid result."
-        )
+        return f"[[{self.__class__.__name__}]]: quantum data {self._qdata} produced invalid result."
 
 
 class InstrNotFoundError(ErrorHandler):
@@ -332,9 +322,7 @@ class InstrNotFoundError(ErrorHandler):
         self._name = name
 
     def __call__(self) -> str:
-        return (
-            f"[[{self.__class__.__name__}]]: instr {self._name} not found"
-        )
+        return f"[[{self.__class__.__name__}]]: instr {self._name} not found"
 
 
 class InstrStatusError(ErrorHandler):
@@ -343,6 +331,4 @@ class InstrStatusError(ErrorHandler):
         self._name = name
 
     def __call__(self) -> str:
-        return (
-            f"[[{self.__class__.__name__}]]: instr {self._name} has status error"
-        )
+        return f"[[{self.__class__.__name__}]]: instr {self._name} has status error"
