@@ -119,13 +119,14 @@ def get_function_definitions(file_path: str, function_name: str) -> List[FnDef]:
     # The root AST should be a Program node
     if not isinstance(ast, Program):
         raise FunctionResolutionError(f"File {file_path} does not parse to a valid Program AST.")
-    
+
     # Find all FnDef nodes in the AST
     found_defs = []
     def visit(node):
         if isinstance(node, FnDef):
-            # node._value[0] is fn_name (Id)
+            print('DEBUG FnDef node:', node, node._value)
             fn_id = node._value[0]
+            print('DEBUG fn_id:', fn_id, getattr(fn_id, '_value', None))
             if hasattr(fn_id, '_value') and fn_id._value[0] == function_name:
                 found_defs.append(node)
         # Recursively visit children
