@@ -3,8 +3,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Iterable
 
-from hhat_lang.core.data.core import WorkingData, Symbol
-from hhat_lang.core.data.utils import isquantum, VariableKind
+from hhat_lang.core.data.core import Symbol, WorkingData
+from hhat_lang.core.data.utils import VariableKind, isquantum
 from hhat_lang.core.error_handlers.errors import (
     ContainerVarError,
     ContainerVarIsImmutableError,
@@ -35,8 +35,8 @@ class BaseDataContainer(ABC):
 
     _instr_counter: int
     """the counter for instructions so quantum instructions can be
-    processed in ordered fashion; especially useful for quantum or 
-    appendable variables types. For instance, can be used on remote 
+    processed in ordered fashion; especially useful for quantum or
+    appendable variables types. For instance, can be used on remote
     instructions for teleportation"""
 
     _transferred: bool
@@ -190,12 +190,10 @@ class BaseDataContainer(ABC):
         return False
 
     @abstractmethod
-    def assign(self, *args: Any, **kwargs: Any) -> None | ErrorHandler:
-        ...
+    def assign(self, *args: Any, **kwargs: Any) -> None | ErrorHandler: ...
 
     @abstractmethod
-    def get(self, *args: Any, **kwargs: Any) -> Any | ErrorHandler:
-        ...
+    def get(self, *args: Any, **kwargs: Any) -> Any | ErrorHandler: ...
 
     def __call__(
         self,
@@ -208,12 +206,10 @@ class BaseDataContainer(ABC):
         yield from self._data.items()
 
     @abstractmethod
-    def borrow(self, *args: Any, **kwargs: Any) -> None | ErrorHandler:
-        ...
+    def borrow(self, *args: Any, **kwargs: Any) -> None | ErrorHandler: ...
 
     @abstractmethod
-    def transfer(self, *args: Any, **kwargs: Any) -> None | ErrorHandler:
-        ...
+    def transfer(self, *args: Any, **kwargs: Any) -> None | ErrorHandler: ...
 
     def free(self) -> None | ErrorHandler:
         """Freeing the container (program going out of container's scope)."""

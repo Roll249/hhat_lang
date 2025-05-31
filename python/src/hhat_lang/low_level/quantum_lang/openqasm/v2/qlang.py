@@ -1,25 +1,34 @@
 from __future__ import annotations
 
-from typing import Any, Callable
-
 import importlib
 import inspect
+from typing import Any, Callable
 
-from hhat_lang.core.code.ir import BlockIR, InstrIR, TypeIR, InstrIRFlag
+from hhat_lang.core.code.ir import BlockIR, InstrIR, InstrIRFlag, TypeIR
 from hhat_lang.core.code.utils import InstrStatus
 from hhat_lang.core.data.core import (
-    Symbol, CoreLiteral, CompositeSymbol, CompositeLiteral,
-    CompositeMixData
+    CompositeLiteral,
+    CompositeMixData,
+    CompositeSymbol,
+    CoreLiteral,
+    Symbol,
 )
 from hhat_lang.core.data.variable import BaseDataContainer
-from hhat_lang.core.error_handlers.errors import ErrorHandler, InstrNotFoundError, InstrStatusError
+from hhat_lang.core.error_handlers.errors import (
+    ErrorHandler,
+    InstrNotFoundError,
+    InstrStatusError,
+)
 from hhat_lang.core.execution.abstract_base import BaseEvaluator
 from hhat_lang.core.lowlevel.abstract_qlang import BaseLowLevelQLang
 from hhat_lang.core.memory.core import IndexManager, MemoryManager
-from hhat_lang.core.utils import Result, Ok, Error
+from hhat_lang.core.utils import Error, Ok, Result
 from hhat_lang.dialects.heather.code.ast import Literal
-
-from hhat_lang.dialects.heather.code.simple_ir_builder.ir import IRBlock, IRInstr, IRArgs
+from hhat_lang.dialects.heather.code.simple_ir_builder.ir import (
+    IRArgs,
+    IRBlock,
+    IRInstr,
+)
 
 
 class LowLeveQLang(BaseLowLevelQLang):
@@ -39,17 +48,17 @@ class LowLeveQLang(BaseLowLevelQLang):
         # TODO: check whether some qubits were previously measured and
         #  handle the rest appropriately
 
-        return "measure q -> c;",
+        return ("measure q -> c;",)
 
-    def gen_literal(self, literal: CoreLiteral, **_kwargs: Any) -> tuple[str, ...] | ErrorHandler:
+    def gen_literal(
+        self, literal: CoreLiteral, **_kwargs: Any
+    ) -> tuple[str, ...] | ErrorHandler:
         """Generate QASM code from literal data"""
 
         return tuple(f"x q[{n}];" for n, k in enumerate(literal.bin) if k == "1")
 
     def gen_var(
-        self,
-        var: BaseDataContainer,
-        executor: BaseEvaluator
+        self, var: BaseDataContainer, executor: BaseEvaluator
     ) -> tuple[str, ...] | ErrorHandler:
         """Generate QASM code from variable data"""
 
@@ -90,7 +99,6 @@ class LowLeveQLang(BaseLowLevelQLang):
                             return res
 
         return code_tuple
-
 
     def gen_args(self, args: tuple[Any, ...], **kwargs: Any) -> Result:
         code_tuple = ()
@@ -135,9 +143,7 @@ class LowLeveQLang(BaseLowLevelQLang):
         return Ok(code_tuple)
 
     def gen_instrs(
-        self,
-        instr: InstrIR | BlockIR,
-        **kwargs: Any
+        self, instr: InstrIR | BlockIR, **kwargs: Any
     ) -> Result | ErrorHandler:
         """
         Transforms each of the instructions into an OpenQASM v2 code or
@@ -158,7 +164,7 @@ class LowLeveQLang(BaseLowLevelQLang):
 
         for name, obj in inspect.getmembers(instr_module, inspect.isclass):
 
-            if (x:= getattr(obj, "name", False)) and x == instr.name:
+            if (x := getattr(obj, "name", False)) and x == instr.name:
                 res_instr, res_status = obj()(
                     idxs=self._idx.in_use_by[self._qdata],
                     executor=self._executor,
@@ -177,10 +183,7 @@ class LowLeveQLang(BaseLowLevelQLang):
 
         return InstrNotFoundError(instr.name)
 
-    def gen_program(
-        self,
-        **kwargs: Any
-    ) -> str:
+    def gen_program(self, **kwargs: Any) -> str:
         """
         Produces the program as a string code written in OpenQASM v2.
 
@@ -211,10 +214,8 @@ class LowLeveQLang(BaseLowLevelQLang):
                         raise gen_args
 
             match gen_instr := self.gen_instrs(
-                    instr=instr,
-                    idx=self._idx,
-                    executor=self._executor
-                ):
+                instr=instr, idx=self._idx, executor=self._executor
+            ):
 
                 case Ok():
                     code += "\n".join(gen_instr.result())

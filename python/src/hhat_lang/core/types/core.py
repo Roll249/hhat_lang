@@ -3,8 +3,8 @@ from __future__ import annotations
 from collections import OrderedDict
 from typing import Any
 
-from hhat_lang.core.data.core import Symbol, WorkingData, CompositeSymbol
-from hhat_lang.core.data.utils import has_same_paradigm, isquantum, VariableKind
+from hhat_lang.core.data.core import CompositeSymbol, Symbol, WorkingData
+from hhat_lang.core.data.utils import VariableKind, has_same_paradigm, isquantum
 from hhat_lang.core.data.variable import BaseDataContainer, VariableTemplate
 from hhat_lang.core.error_handlers.errors import (
     ErrorHandler,
@@ -18,8 +18,7 @@ from hhat_lang.core.utils import SymbolOrdered
 
 
 def is_valid_member(
-    datatype: BaseTypeDataStructure,
-    member: str | Symbol | CompositeSymbol
+    datatype: BaseTypeDataStructure, member: str | Symbol | CompositeSymbol
 ) -> bool:
     """
     Check if a datatype member is valid for the given datatype, e.g. quantum
@@ -35,12 +34,17 @@ def is_valid_member(
 
 class SingleDS(BaseTypeDataStructure):
     def __init__(
-        self, name: Symbol | CompositeSymbol, size: Size | None = None, qsize: QSize | None = None
+        self,
+        name: Symbol | CompositeSymbol,
+        size: Size | None = None,
+        qsize: QSize | None = None,
     ):
         super().__init__(name)
         self._size = size
         self._qsize = qsize
-        self._type_container: OrderedDict[Symbol | CompositeSymbol, Symbol | CompositeSymbol] = OrderedDict()
+        self._type_container: OrderedDict[
+            Symbol | CompositeSymbol, Symbol | CompositeSymbol
+        ] = OrderedDict()
 
     def add_member(
         self, member_type: BaseTypeDataStructure, _member_name: None = None
@@ -79,12 +83,17 @@ class ArrayDS(BaseTypeDataStructure):
     """This is an array data structure, to be thought as [u64] to represent an array of u64."""
 
     def __init__(
-        self, name: Symbol | CompositeSymbol, size: Size | None = None, qsize: QSize | None = None
+        self,
+        name: Symbol | CompositeSymbol,
+        size: Size | None = None,
+        qsize: QSize | None = None,
     ):
         super().__init__(name, array_type=True)
         self._size = size
         self._qsize = qsize
-        self._type_container: OrderedDict[Symbol | CompositeSymbol, Symbol | CompositeSymbol] = OrderedDict()
+        self._type_container: OrderedDict[
+            Symbol | CompositeSymbol, Symbol | CompositeSymbol
+        ] = OrderedDict()
 
     def add_member(self, member_type: Any, member_name: Any) -> Any | ErrorHandler:
         raise NotImplementedError()
@@ -101,12 +110,17 @@ class ArrayDS(BaseTypeDataStructure):
 
 class StructDS(BaseTypeDataStructure):
     def __init__(
-        self, name: Symbol | CompositeSymbol, size: Size | None = None, qsize: QSize | None = None
+        self,
+        name: Symbol | CompositeSymbol,
+        size: Size | None = None,
+        qsize: QSize | None = None,
     ):
         super().__init__(name)
         self._size = size
         self._qsize = qsize
-        self._type_container: SymbolOrdered[Symbol | CompositeSymbol, Symbol | CompositeSymbol] = SymbolOrdered()
+        self._type_container: SymbolOrdered[
+            Symbol | CompositeSymbol, Symbol | CompositeSymbol
+        ] = SymbolOrdered()
 
     def add_member(
         self, member_type: BaseTypeDataStructure, member_name: Symbol | CompositeSymbol
@@ -162,7 +176,10 @@ class StructDS(BaseTypeDataStructure):
 
 class UnionDS(BaseTypeDataStructure):
     def __init__(
-        self, name: Symbol | CompositeSymbol, size: Size | None = None, qsize: QSize | None = None
+        self,
+        name: Symbol | CompositeSymbol,
+        size: Size | None = None,
+        qsize: QSize | None = None,
     ):
         super().__init__(name)
         self._size = size
@@ -184,7 +201,10 @@ class UnionDS(BaseTypeDataStructure):
 
 class EnumDS(BaseTypeDataStructure):
     def __init__(
-        self, name: Symbol | CompositeSymbol, size: Size | None = None, qsize: QSize | None = None
+        self,
+        name: Symbol | CompositeSymbol,
+        size: Size | None = None,
+        qsize: QSize | None = None,
     ):
         super().__init__(name)
         self._size = size
