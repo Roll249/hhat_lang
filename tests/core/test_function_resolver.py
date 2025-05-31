@@ -4,6 +4,7 @@ from hhat_lang.core.function_resolver import locate_function_source, FunctionRes
 from hhat_lang.core.data.core import CompositeSymbol # Assuming this is the type for dummy functions
 
 # Helper to create dummy .hat files and directories
+# (Heather syntax expects 'fn' not 'func')
 def create_dummy_hat_file(base_path: Path, module_path_str: str, content: str = ""):
     components = module_path_str.split('.')
     file_name = components[-1] + ".hat"
@@ -11,7 +12,8 @@ def create_dummy_hat_file(base_path: Path, module_path_str: str, content: str = 
     if len(components) > 1:
         dir_path = base_path.joinpath(*components[:-1])
         dir_path.mkdir(parents=True, exist_ok=True)
-    
+    # Convert 'func' to 'fn' for Heather compatibility
+    content = content.replace('func ', 'fn ')
     with open(dir_path / file_name, "w") as f:
         f.write(content) # Content might be useful later for actual parsing
     return dir_path / file_name
@@ -30,8 +32,8 @@ def project_structure(tmp_path):
 
     # 3. many dummies within a single folder (src/data/processing.hat)
     create_dummy_hat_file(src_path, "data.processing", 
-                          "func clean_data() {}
-func transform_data() {}")
+        "func clean_data() {}\nfunc transform_data() {}"  # fix: close string and parenthesis
+    )
 
     # 4. many dummies within many folders (src/utils/strings.hat, src/utils/numbers.hat)
     create_dummy_hat_file(src_path, "utils.strings", "func join_str() {}")
