@@ -41,6 +41,7 @@ class ErrorCodes(Enum):
 
     INSTR_NOTFOUND_ERROR = auto()
     INSTR_STATUS_ERROR = auto()
+    FUNCTION_RESOLUTION_ERROR = auto()  # Added for function resolution errors
 
 
 class ErrorHandler(ABC):
@@ -332,3 +333,12 @@ class InstrStatusError(ErrorHandler):
 
     def __call__(self) -> str:
         return f"[[{self.__class__.__name__}]]: instr {self._name} has status error"
+
+
+class FunctionResolutionError(ErrorHandler):
+    def __init__(self, message: str):
+        super().__init__(ErrorCodes.FUNCTION_RESOLUTION_ERROR)
+        self._message = message
+
+    def __call__(self) -> str:
+        return f"[[FunctionResolutionError]]: {self._message}"

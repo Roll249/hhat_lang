@@ -6,7 +6,7 @@ from typing import Iterable
 
 class AST(ABC):
     """
-    Abstract syntax tree for the Heather parser. Consuming the
+    Abstract syntax tree for a H-hat dialect parser. Consuming the
     lexer and generating the AST to structure the code so the IR
     can be generated for the Evaluator to execute the code.
 

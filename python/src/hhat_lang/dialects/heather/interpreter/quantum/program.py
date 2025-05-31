@@ -17,7 +17,11 @@ into `u32`. It also is valid for quantum variables::
 
 The quantum program workflow is as follows:
 
+<<<<<<< HEAD
 - Instructions are analyzed according to the low level language and target backend
+=======
+- Instructions are analyzed according to the low level language and target backend 
+>>>>>>> origin/main
   support (lower level counterparts, LLC)
 
     - If classical instructions are supported, they will be handled by those

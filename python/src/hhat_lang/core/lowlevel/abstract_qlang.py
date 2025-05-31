@@ -6,7 +6,6 @@ from typing import Any
 from hhat_lang.core.data.core import WorkingData
 from hhat_lang.core.execution.abstract_base import BaseEvaluator
 from hhat_lang.core.memory.core import IndexManager
-from hhat_lang.dialects.heather.code.simple_ir_builder.ir import IRBlock
 
 
 class BaseLowLevelQLang(ABC):
@@ -17,14 +16,14 @@ class BaseLowLevelQLang(ABC):
 
     _qdata: WorkingData
     _num_idxs: int
-    _code: IRBlock
+    _code: Any  # Was IRBlock, now Any for dialect independence
     _idx: IndexManager
     _executor: BaseEvaluator
 
     def __init__(
         self,
         qvar: WorkingData,
-        code: IRBlock,
+        code: Any,  # Was IRBlock, now Any for dialect independence
         idx: IndexManager,
         executor: BaseEvaluator,
         *_args: Any,

@@ -43,11 +43,19 @@ class IndexManager:
         - `max_number`: maximum number of allowed indexes
         - `available`: deque with all the available indexes
         - `allocated`: deque with all the allocated indexes
+<<<<<<< HEAD
         - `in_use_by`: dictionary containing the allocator variable as key and deque with
           allocated indexes as value
 
     Methods
         - `request`: given a variable (`Symbol`) and the number of indexes (`int`),
+=======
+        - `in_use_by`: dictionary containing the allocator variable as key and deque with 
+          allocated indexes as value
+
+    Methods
+        - `request`: given a variable (`Symbol`) and the number of indexes (`int`), 
+>>>>>>> origin/main
           allocate the number if it has enough space
         - `free`: given a variable (`Symbol`), free all the allocated indexes
     """

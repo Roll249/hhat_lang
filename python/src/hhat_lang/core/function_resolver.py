@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+<<<<<<< HEAD
 from typing import TYPE_CHECKING, List, Tuple, Any
 
 from hhat_lang.core.data.core import CompositeSymbol
@@ -10,6 +11,20 @@ from hhat_lang.core.error_handlers.errors import FunctionResolutionError
 if TYPE_CHECKING:
     # Dialect-specific types for type checking only
     from hhat_lang.core.code.ast import AST
+
+=======
+from typing import List, Tuple
+
+from hhat_lang.core.data.core import CompositeSymbol
+from hhat_lang.dialects.heather.code.ast import FnDef, Program
+from hhat_lang.dialects.heather.parsing.run import parse_file
+
+
+class FunctionResolutionError(Exception):
+    """Custom error for function resolution issues."""
+
+    pass
+>>>>>>> origin/main
 
 
 def _validate_path_component(component: str, is_directory_in_src: bool):
@@ -84,7 +99,11 @@ def locate_function_source(
         return str(target_file), function_name
 
     # Case 2: Function in a .hat file within src/
+<<<<<<< HEAD
     # module_components is a list of path components split by '.' (e.g., ['directory', 'subdirectory', 'file_stem'])
+=======
+    # module_components = ["directory", "subdirectory", "file_stem"]
+>>>>>>> origin/main
     if not module_components:  # Should be caught by earlier check, but as safeguard.
         raise FunctionResolutionError("Module components list is empty.")
 
@@ -115,7 +134,11 @@ def locate_function_source(
     return str(target_file), function_name
 
 
+<<<<<<< HEAD
 def get_function_definitions(file_path: str, function_name: str, parse_file: Any, FnDef_type: Any, Program_type: Any, get_fn_name: Any) -> List[Any]:
+=======
+def get_function_definitions(file_path: str, function_name: str) -> List[FnDef]:
+>>>>>>> origin/main
     """
     Parse the .hat file and return all function definitions (FnDef) matching the function_name.
 
@@ -134,7 +157,12 @@ def get_function_definitions(file_path: str, function_name: str, parse_file: Any
         FunctionResolutionError: If file doesn't parse properly or no functions found
     """
     ast = parse_file(file_path)
+<<<<<<< HEAD
     if not isinstance(ast, Program_type):
+=======
+    # The root AST should be a Program node
+    if not isinstance(ast, Program):
+>>>>>>> origin/main
         raise FunctionResolutionError(
             f"File {file_path} does not parse to a valid Program AST."
         )
@@ -142,6 +170,7 @@ def get_function_definitions(file_path: str, function_name: str, parse_file: Any
     found_defs = []
 
     def visit(node):
+<<<<<<< HEAD
         if isinstance(node, FnDef_type):
             fn_name = get_fn_name(node)
             if fn_name == function_name:
@@ -151,6 +180,16 @@ def get_function_definitions(file_path: str, function_name: str, parse_file: Any
                 if hasattr(child, "__class__") and hasattr(child, "_value"):
                     visit(child)
         elif hasattr(node, "value"):
+=======
+        if isinstance(node, FnDef):
+            print("DEBUG FnDef node:", node, node._value)
+            fn_id = node._value[0]
+            print("DEBUG fn_id:", fn_id, getattr(fn_id, "_value", None))
+            if hasattr(fn_id, "_value") and fn_id._value[0] == function_name:
+                found_defs.append(node)
+        # Recursively visit children
+        if hasattr(node, "value"):
+>>>>>>> origin/main
             for v in node.value:
                 if isinstance(v, (list, tuple)):
                     for item in v:
@@ -165,7 +204,10 @@ def get_function_definitions(file_path: str, function_name: str, parse_file: Any
         raise FunctionResolutionError(
             f"No function definition named '{function_name}' found in {file_path}"
         )
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
     return found_defs
 
 # NOTE: Tests involving dialects should be placed in the appropriate dialect test folder,
