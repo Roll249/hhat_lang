@@ -2,18 +2,14 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import TYPE_CHECKING, List, Tuple
+from typing import TYPE_CHECKING, List, Tuple, Any
 
 from hhat_lang.core.data.core import CompositeSymbol
+from hhat_lang.core.error_handlers.errors import FunctionResolutionError
 
 if TYPE_CHECKING:
-    from hhat_lang.dialects.heather.code.ast import FnDef, Program
-
-
-class FunctionResolutionError(Exception):
-    """Custom error for function resolution issues."""
-
-    pass
+    # Dialect-specific types for type checking only
+    from hhat_lang.core.code.ast import AST
 
 
 def _validate_path_component(component: str, is_directory_in_src: bool):
@@ -88,7 +84,7 @@ def locate_function_source(
         return str(target_file), function_name
 
     # Case 2: Function in a .hat file within src/
-    # module_components = ["directory", "subdirectory", "file_stem"]
+    # module_components is a list of path components split by '.' (e.g., ['directory', 'subdirectory', 'file_stem'])
     if not module_components:  # Should be caught by earlier check, but as safeguard.
         raise FunctionResolutionError("Module components list is empty.")
 
@@ -119,13 +115,17 @@ def locate_function_source(
     return str(target_file), function_name
 
 
-def get_function_definitions(file_path: str, function_name: str) -> List["FnDef"]:
+def get_function_definitions(file_path: str, function_name: str, parse_file: Any, FnDef_type: Any, Program_type: Any, get_fn_name: Any) -> List[Any]:
     """
     Parse the .hat file and return all function definitions (FnDef) matching the function_name.
 
     Args:
         file_path: Path to the .hat file to parse
         function_name: Name of the function to find
+        parse_file: Callable that parses a file and returns an AST (provided by dialect)
+        FnDef_type: The FnDef class/type from the dialect
+        Program_type: The Program class/type from the dialect
+        get_fn_name: Callable that extracts the function name from a FnDef node (provided by dialect)
 
     Returns:
         List of FnDef AST nodes matching the function name
@@ -133,35 +133,24 @@ def get_function_definitions(file_path: str, function_name: str) -> List["FnDef"
     Raises:
         FunctionResolutionError: If file doesn't parse properly or no functions found
     """
-    # Import here to avoid circular import
-    from hhat_lang.dialects.heather.code.ast import FnDef, Program
-    from hhat_lang.dialects.heather.parsing.run import parse_file
-
     ast = parse_file(file_path)
-    # The root AST should be a Program node
-    if not isinstance(ast, Program):
+    if not isinstance(ast, Program_type):
         raise FunctionResolutionError(
             f"File {file_path} does not parse to a valid Program AST."
         )
 
-    # Find all FnDef nodes in the AST
     found_defs = []
 
     def visit(node):
-        """Recursively visit AST nodes to find FnDef instances."""
-        if isinstance(node, FnDef):
-            # Extract function name from the FnDef node
-            fn_id = node._value[0]
-            if hasattr(fn_id, "_value") and fn_id._value[0] == function_name:
+        if isinstance(node, FnDef_type):
+            fn_name = get_fn_name(node)
+            if fn_name == function_name:
                 found_defs.append(node)
-
-        # Recursively visit children based on node structure
         if hasattr(node, "_value") and isinstance(node._value, (list, tuple)):
             for child in node._value:
                 if hasattr(child, "__class__") and hasattr(child, "_value"):
                     visit(child)
         elif hasattr(node, "value"):
-            # Handle alternative node structures
             for v in node.value:
                 if isinstance(v, (list, tuple)):
                     for item in v:
@@ -178,3 +167,6 @@ def get_function_definitions(file_path: str, function_name: str) -> List["FnDef"
         )
 
     return found_defs
+
+# NOTE: Tests involving dialects should be placed in the appropriate dialect test folder,
+# e.g., tests/dialects/heather/, not in the H-hat core test suite.
