@@ -332,7 +332,6 @@ class InstrStatusError(ErrorHandler):
 
     def __call__(self) -> str:
         return f"[[{self.__class__.__name__}]]: instr {self._name} has status error"
-<<<<<<< HEAD
 
 
 class FunctionResolutionError(ErrorHandler):
@@ -342,5 +341,3 @@ class FunctionResolutionError(ErrorHandler):
 
     def __call__(self) -> str:
         return f"[[FunctionResolutionError]]: {self._message}"
-=======
->>>>>>> upstream/main

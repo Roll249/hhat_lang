@@ -3,10 +3,7 @@ from __future__ import annotations
 from typing import Any, Callable, Iterable, cast
 
 from hhat_lang.core.data.core import CoreLiteral, Symbol, WorkingData
-<<<<<<< HEAD
-=======
 from hhat_lang.core.data.utils import VariableKind
->>>>>>> upstream/main
 from hhat_lang.core.data.variable import BaseDataContainer, VariableTemplate
 from hhat_lang.core.error_handlers.errors import (
     CastError,
@@ -16,10 +13,7 @@ from hhat_lang.core.error_handlers.errors import (
     TypeSingleError,
 )
 from hhat_lang.core.types.abstract_base import BaseTypeDataStructure, QSize, Size
-<<<<<<< HEAD
-=======
 from hhat_lang.core.utils import SymbolOrdered
->>>>>>> upstream/main
 
 ###############
 # DEFINITIONS #

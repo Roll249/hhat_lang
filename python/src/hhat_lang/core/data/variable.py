@@ -3,11 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Iterable
 
-<<<<<<< HEAD
-from hhat_lang.core.data.core import Symbol, WorkingData
-=======
 from hhat_lang.core.data.core import CompositeSymbol, Symbol, WorkingData
->>>>>>> upstream/main
 from hhat_lang.core.data.utils import VariableKind, isquantum
 from hhat_lang.core.error_handlers.errors import (
     ContainerVarError,

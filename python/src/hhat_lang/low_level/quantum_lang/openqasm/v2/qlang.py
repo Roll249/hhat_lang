@@ -58,11 +58,7 @@ class LowLeveQLang(BaseLowLevelQLang):
         return tuple(f"x q[{n}];" for n, k in enumerate(literal.bin) if k == "1")
 
     def gen_var(
-<<<<<<< HEAD
-        self, var: BaseDataContainer, executor: BaseEvaluator
-=======
         self, var: BaseDataContainer | Symbol, executor: BaseEvaluator
->>>>>>> upstream/main
     ) -> tuple[str, ...] | ErrorHandler:
         """Generate QASM code from variable data"""
 
@@ -116,13 +112,8 @@ class LowLeveQLang(BaseLowLevelQLang):
 
         return code_tuple
 
-<<<<<<< HEAD
-    def gen_args(self, args: tuple[Any, ...], **kwargs: Any) -> Result:
-        code_tuple = ()
-=======
     def gen_args(self, args: tuple[Any, ...], **kwargs: Any) -> Result | ErrorHandler:
         code_tuple: tuple[str, ...] = ()
->>>>>>> upstream/main
 
         for k in args:
 
@@ -176,11 +167,7 @@ class LowLeveQLang(BaseLowLevelQLang):
         return Ok(code_tuple)
 
     def gen_instrs(
-<<<<<<< HEAD
-        self, instr: InstrIR | BlockIR, **kwargs: Any
-=======
         self, *, instr: InstrIR | BlockIR, **kwargs: Any
->>>>>>> upstream/main
     ) -> Result | ErrorHandler:
         """
         Transforms each of the instructions into an OpenQASM v2 code or

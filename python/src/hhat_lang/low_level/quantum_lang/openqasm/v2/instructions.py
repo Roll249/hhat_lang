@@ -12,10 +12,7 @@ from hhat_lang.core.data.core import (
 )
 from hhat_lang.core.data.variable import BaseDataContainer
 from hhat_lang.core.execution.abstract_base import BaseEvaluator
-<<<<<<< HEAD
-=======
 from hhat_lang.core.memory.core import MemoryDataTypes
->>>>>>> upstream/main
 
 ##########################
 # CLASSICAL INSTRUCTIONS #
@@ -30,32 +27,15 @@ class If(CInstr):
         return f"if({cond_test}) {instr};"
 
     def _translate_instrs(
-<<<<<<< HEAD
-        self, cond_test: tuple[str, ...], instrs: tuple[str, ...], **kwargs: Any
-=======
         self,
         cond_test: tuple[MemoryDataTypes],
         instrs: tuple[MemoryDataTypes],
         **kwargs: Any,
->>>>>>> upstream/main
     ) -> tuple[tuple[str, ...], InstrStatus]:
-        """
-        Translate `If` instruction. Number of condition tests (`cond_test`) must
-        match the number of instructions (`instrs`).
-        """
-
-<<<<<<< HEAD
-        return (
-            tuple(self._instr(c, i) for c, i in zip(cond_test, instrs)),
-            InstrStatus.DONE,
-        )
-=======
         transformed_instrs: tuple[str, ...] = ()
 
         for c, i in zip(cond_test, instrs):
-
             c_value: str
-
             match c:
                 case BaseDataContainer():
                     c_value = c.name.value
@@ -65,9 +45,7 @@ class If(CInstr):
                     raise NotImplementedError()
                 case _:
                     raise NotImplementedError()
-
             i_value: str
-
             match i:
                 case BaseDataContainer():
                     i_value = i.name.value
@@ -77,11 +55,8 @@ class If(CInstr):
                     raise NotImplementedError()
                 case _:
                     raise NotImplementedError()
-
             transformed_instrs += (self._instr(c_value, i_value),)
-
         return transformed_instrs, InstrStatus.DONE
->>>>>>> upstream/main
 
     def __call__(
         self, *, executor: BaseEvaluator, **kwargs: Any

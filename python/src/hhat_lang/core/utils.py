@@ -5,11 +5,7 @@ from collections import OrderedDict
 from collections.abc import Mapping
 from typing import Any, Iterator
 
-<<<<<<< HEAD
-from hhat_lang.core.data.core import CompositeSymbol, Symbol
-=======
 from hhat_lang.core.data.core import CompositeSymbol, Symbol, WorkingData
->>>>>>> upstream/main
 from hhat_lang.core.error_handlers.errors import ErrorHandler
 
 
@@ -34,15 +30,8 @@ class SymbolOrdered(Mapping):
         elif isinstance(key, (Symbol, CompositeSymbol)):
             self._data[key] = value
 
-<<<<<<< HEAD
-        else:
-            raise ValueError(
-                f"{key} ({type(key)}) is not valid key for data structures."
-            )
-=======
         elif isinstance(key, WorkingData):
             self._data[key] = value
->>>>>>> upstream/main
 
         elif isinstance(key, int):
             self._data[key] = value

@@ -4,10 +4,6 @@ from pathlib import Path
 
 import pytest
 from hhat_lang.dialects.heather.parsing.run import (
-<<<<<<< HEAD
-    parse,
-=======
->>>>>>> upstream/main
     parse_file,
     parse_grammar,
 )

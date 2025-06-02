@@ -1,14 +1,9 @@
 from __future__ import annotations
 
 from hhat_lang.core.code.ir import InstrIRFlag, TypeIR
-<<<<<<< HEAD
-from hhat_lang.core.data.core import CoreLiteral, Symbol
-from hhat_lang.core.memory.core import MemoryManager
-=======
 from hhat_lang.core.code.utils import InstrStatus
 from hhat_lang.core.data.core import CoreLiteral, Symbol
 from hhat_lang.core.memory.core import MemoryManager, Stack
->>>>>>> upstream/main
 from hhat_lang.dialects.heather.code.simple_ir_builder.ir import (
     FnIR,
     IRArgs,
@@ -16,10 +11,7 @@ from hhat_lang.dialects.heather.code.simple_ir_builder.ir import (
     IRInstr,
 )
 from hhat_lang.dialects.heather.interpreter.classical.executor import Evaluator
-<<<<<<< HEAD
-=======
 from hhat_lang.low_level.quantum_lang.openqasm.v2.instructions import QNot
->>>>>>> upstream/main
 from hhat_lang.low_level.quantum_lang.openqasm.v2.qlang import LowLeveQLang
 
 
