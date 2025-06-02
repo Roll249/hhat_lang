@@ -29,10 +29,10 @@ class PIDManager:
     """
 
     def new(self) -> UUID:
-        pass
+        raise NotImplementedError()
 
     def list(self) -> list[UUID]:
-        pass
+        raise NotImplementedError()
 
 
 class IndexManager:
@@ -43,6 +43,7 @@ class IndexManager:
         - `max_number`: maximum number of allowed indexes
         - `available`: deque with all the available indexes
         - `allocated`: deque with all the allocated indexes
+<<<<<<< HEAD
 <<<<<<< HEAD
         - `in_use_by`: dictionary containing the allocator variable as key and deque with
           allocated indexes as value
@@ -57,6 +58,14 @@ class IndexManager:
         - `request`: given a variable (`Symbol`) and the number of indexes (`int`), 
 >>>>>>> origin/main
           allocate the number if it has enough space
+=======
+        - `in_use_by`: dictionary containing the allocator variable as key and
+        deque with allocated indexes as value
+
+    Methods
+        - `request`: given a variable (`Symbol`) and the number of indexes (`int`),
+        allocate the number if it has enough space
+>>>>>>> upstream/main
         - `free`: given a variable (`Symbol`), free all the allocated indexes
     """
 
@@ -112,7 +121,7 @@ class IndexManager:
         available = self._max_num_index - self._num_allocated
 
         if available >= num_idxs:
-            _data = tuple()
+            _data: tuple = tuple()
 
             for _ in range(0, num_idxs):
                 _data += (self._available.popleft(),)
@@ -264,11 +273,15 @@ class Heap(BaseHeap):
         self._data[key] = value
         return None
 
+<<<<<<< HEAD
     def get(self, key: Symbol) -> BaseDataContainer | HeapInvalidKeyError:
+=======
+    def get(self, key: Symbol) -> BaseDataContainer | WorkingData | HeapInvalidKeyError:
+>>>>>>> upstream/main
         if not (var_data := self._data.get(key, False)):
             return HeapInvalidKeyError(key=key)
 
-        return var_data
+        return var_data  # type: ignore [return-value]
 
 
 class SymbolTable:
@@ -336,3 +349,13 @@ class MemoryManager(BaseMemoryManager):
 MemoryDataTypes = (
     BaseDataContainer | CoreLiteral | CompositeLiteral | Symbol | CompositeMixData
 )
+<<<<<<< HEAD
+=======
+"""
+- BaseDataContainer
+- CoreLiteral
+- CompositeLiteral
+- Symbol
+- CompositeMixData
+"""
+>>>>>>> upstream/main

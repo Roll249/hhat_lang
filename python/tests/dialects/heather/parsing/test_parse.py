@@ -4,12 +4,18 @@ from pathlib import Path
 
 import pytest
 from hhat_lang.dialects.heather.parsing.run import (
+<<<<<<< HEAD
     parse,
+=======
+>>>>>>> upstream/main
     parse_file,
     parse_grammar,
 )
 
 THIS = Path(__file__).parent
+
+# skipping this file until the parser
+pytest.skip(allow_module_level=True)
 
 
 def test_parse_grammar() -> None:

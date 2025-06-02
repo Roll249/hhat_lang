@@ -22,7 +22,7 @@ def load_qasm(code: str) -> QuantumCircuit:
 
 def sample_circuit(
     circuit: QuantumCircuit,
-    qdata: str | Symbol,
+    qdata: str | WorkingData,
     metadata: dict[str, Any] | None = None,
 ) -> Any | ErrorHandler:
     """
@@ -44,10 +44,18 @@ def sample_circuit(
     if job_res:
         pub_res: PubResult = job_res[0]
         databin: DataBin = pub_res.data
+<<<<<<< HEAD
         res = (
             getattr(databin, "c", None) or getattr(databin, "meas", None)
         ).get_counts()
         return res
+=======
+        res = getattr(databin, "c", None) or getattr(databin, "meas", None)
+
+        if res is not None:
+            res = res.get_counts()
+            return res
+>>>>>>> upstream/main
 
     # job_res is None, then something went wrong
     return InvalidQuantumComputedResult(qdata)

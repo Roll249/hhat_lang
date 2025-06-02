@@ -5,6 +5,7 @@ readiness for the evaluator.
 
 from __future__ import annotations
 
+import uuid
 from typing import Any, Iterable
 
 from hhat_lang.core.code.ast import AST
@@ -53,6 +54,7 @@ class IRArgs(ArgsIR):
 class IRBlock(BlockIR):
     def __init__(self):
         self._instrs = tuple()
+        self.name = str(uuid.uuid4())
 
     def add_instr(self, instr: IRInstr | IRBlock) -> None:
         if isinstance(instr, IRInstr | IRBlock):
@@ -65,7 +67,7 @@ class IRBlock(BlockIR):
 
 
 def compile_to_ir(code: AST) -> IR:
-    pass
+    raise NotImplementedError()
 
 
 class FnIR(BaseFnIR):
@@ -85,7 +87,7 @@ class FnIR(BaseFnIR):
         pass
 
     def __contains__(self, item: Any) -> bool:
-        pass
+        raise NotImplementedError()
 
 
 class IR(BaseIR):

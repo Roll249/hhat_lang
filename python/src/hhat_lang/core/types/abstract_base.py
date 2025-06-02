@@ -76,7 +76,7 @@ class BaseTypeDataStructure(ABC):
         self._array_type = array_type
 
     @property
-    def name(self) -> Symbol:
+    def name(self) -> Symbol | CompositeSymbol:
         return self._name
 
     @property

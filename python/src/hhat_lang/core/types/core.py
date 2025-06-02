@@ -42,9 +42,13 @@ class SingleDS(BaseTypeDataStructure):
         super().__init__(name)
         self._size = size
         self._qsize = qsize
+<<<<<<< HEAD
         self._type_container: OrderedDict[
             Symbol | CompositeSymbol, Symbol | CompositeSymbol
         ] = OrderedDict()
+=======
+        self._type_container: SymbolOrdered = SymbolOrdered()
+>>>>>>> upstream/main
 
     def add_member(
         self, member_type: BaseTypeDataStructure, _member_name: None = None
@@ -73,8 +77,12 @@ class SingleDS(BaseTypeDataStructure):
                     type_ds=SymbolOrdered({Symbol(x.type): self._type_container}),
                     flag=flag,
                 )
-                variable(*args)
-                return variable
+
+                if isinstance(variable, BaseDataContainer):
+                    variable(*args)
+                    return variable
+
+                return variable  # type: ignore [return-value]
 
         return TypeSingleError(self._name)
 
@@ -91,9 +99,13 @@ class ArrayDS(BaseTypeDataStructure):
         super().__init__(name, array_type=True)
         self._size = size
         self._qsize = qsize
+<<<<<<< HEAD
         self._type_container: OrderedDict[
             Symbol | CompositeSymbol, Symbol | CompositeSymbol
         ] = OrderedDict()
+=======
+        self._type_container: SymbolOrdered = SymbolOrdered()
+>>>>>>> upstream/main
 
     def add_member(self, member_type: Any, member_name: Any) -> Any | ErrorHandler:
         raise NotImplementedError()
@@ -118,9 +130,13 @@ class StructDS(BaseTypeDataStructure):
         super().__init__(name)
         self._size = size
         self._qsize = qsize
+<<<<<<< HEAD
         self._type_container: SymbolOrdered[
             Symbol | CompositeSymbol, Symbol | CompositeSymbol
         ] = SymbolOrdered()
+=======
+        self._type_container: SymbolOrdered = SymbolOrdered()
+>>>>>>> upstream/main
 
     def add_member(
         self, member_type: BaseTypeDataStructure, member_name: Symbol | CompositeSymbol
@@ -170,8 +186,12 @@ class StructDS(BaseTypeDataStructure):
             type_ds=self._type_container,
             flag=flag,
         )
-        variable(**container)
-        return variable
+
+        if isinstance(variable, BaseDataContainer):
+            variable(**container)
+            return variable
+
+        return variable  # type: ignore [return-value]
 
 
 class UnionDS(BaseTypeDataStructure):

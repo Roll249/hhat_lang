@@ -8,8 +8,11 @@ from hhat_lang.dialects.heather.code.ast import (
     ArgValuePair,
     CompositeId,
     EnumTypeMember,
+<<<<<<< HEAD
     FnArgs,
     FnDef,
+=======
+>>>>>>> upstream/main
     Id,
     Imports,
     Main,
@@ -23,6 +26,7 @@ from hhat_lang.dialects.heather.code.ast import (
 
 class ParserVisitor(PTNodeVisitor):
     def visit_program(self, node: NonTerminal, child: SemanticActionResults) -> AST:
+<<<<<<< HEAD
         """
         Construct a Program AST node from parsed children.
 
@@ -77,3 +81,6 @@ class ParserVisitor(PTNodeVisitor):
         fn_body = child[3] if len(child) > 3 else None
 
         return FnDef(fn_name, fn_type, fn_args, fn_body)
+=======
+        raise NotImplementedError()
+>>>>>>> upstream/main

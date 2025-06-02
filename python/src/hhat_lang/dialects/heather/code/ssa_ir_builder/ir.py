@@ -119,7 +119,7 @@ class SSA:
         return self._symbol.value
 
     @property
-    def idx(self) -> int:
+    def idx(self) -> int | None:
         return self._idx
 
     @property
@@ -216,7 +216,7 @@ class IRVar:
     """
 
     _symbol: Symbol
-    _data: list[SSA, ...] | list
+    _data: list[SSA] | list
     _ssa_counter: SSACounter
 
     def __init__(self, symbol: Symbol):
@@ -229,7 +229,7 @@ class IRVar:
         return self._symbol
 
     @property
-    def data(self) -> list[SSA, ...]:
+    def data(self) -> list[SSA]:
         return self._data
 
     def ssa_inc(self) -> int:

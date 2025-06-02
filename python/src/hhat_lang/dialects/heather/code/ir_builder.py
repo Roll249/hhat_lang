@@ -1,3 +1,4 @@
+# type: ignore
 """
 In this file there are three distinct sections:
 

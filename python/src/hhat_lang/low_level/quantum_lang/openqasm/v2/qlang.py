@@ -58,21 +58,37 @@ class LowLeveQLang(BaseLowLevelQLang):
         return tuple(f"x q[{n}];" for n, k in enumerate(literal.bin) if k == "1")
 
     def gen_var(
+<<<<<<< HEAD
         self, var: BaseDataContainer, executor: BaseEvaluator
+=======
+        self, var: BaseDataContainer | Symbol, executor: BaseEvaluator
+>>>>>>> upstream/main
     ) -> tuple[str, ...] | ErrorHandler:
         """Generate QASM code from variable data"""
 
-        var_data = executor.mem.heap[var.name]
-        code_tuple = ()
+        var_data = executor.mem.heap[var if isinstance(var, Symbol) else var.name]
+        code_tuple: tuple[str, ...] = ()
 
         for member, data in var_data:
 
             match data:
                 case Symbol():
-                    code_tuple += self.gen_var(data, executor=self._executor)
+                    d_res = self.gen_var(data, executor=self._executor)
+
+                    if isinstance(d_res, tuple):
+                        code_tuple += d_res
+
+                    else:
+                        return d_res
 
                 case CoreLiteral():
-                    code_tuple += self.gen_literal(data)
+                    d_res = self.gen_literal(data)
+
+                    if isinstance(d_res, tuple):
+                        code_tuple += d_res
+
+                    else:
+                        return d_res
 
                 case CompositeSymbol():
                     # TODO: implement it
@@ -88,7 +104,7 @@ class LowLeveQLang(BaseLowLevelQLang):
 
                 case InstrIR():
 
-                    match res := self.gen_instrs(data, executor=self._executor):
+                    match res := self.gen_instrs(instr=data, executor=self._executor):
                         case Ok():
                             code_tuple += res.result()
 
@@ -100,17 +116,34 @@ class LowLeveQLang(BaseLowLevelQLang):
 
         return code_tuple
 
+<<<<<<< HEAD
     def gen_args(self, args: tuple[Any, ...], **kwargs: Any) -> Result:
         code_tuple = ()
+=======
+    def gen_args(self, args: tuple[Any, ...], **kwargs: Any) -> Result | ErrorHandler:
+        code_tuple: tuple[str, ...] = ()
+>>>>>>> upstream/main
 
         for k in args:
 
             match k:
                 case Symbol():
-                    code_tuple += self.gen_var(k, executor=self._executor)
+                    res = self.gen_var(k, executor=self._executor)
+
+                    if isinstance(res, tuple):
+                        code_tuple += res
+
+                    else:
+                        return res
 
                 case CoreLiteral():
-                    code_tuple += self.gen_literal(k)
+                    res = self.gen_literal(k)
+
+                    if isinstance(res, tuple):
+                        code_tuple += res
+
+                    else:
+                        return res
 
                 case CompositeSymbol():
                     # TODO: implement it
@@ -126,15 +159,15 @@ class LowLeveQLang(BaseLowLevelQLang):
 
                 case InstrIR():
 
-                    match res := self.gen_instrs(k, **kwargs):
+                    match instr_res := self.gen_instrs(instr=k, **kwargs):
                         case Ok():
-                            code_tuple += res.result()
+                            code_tuple += instr_res.result()
 
                         case Error():
-                            return res.result()
+                            return instr_res.result()
 
                         case ErrorHandler():
-                            return res
+                            return instr_res
 
                 case _:
                     # unknown case, needs investigation
@@ -143,7 +176,11 @@ class LowLeveQLang(BaseLowLevelQLang):
         return Ok(code_tuple)
 
     def gen_instrs(
+<<<<<<< HEAD
         self, instr: InstrIR | BlockIR, **kwargs: Any
+=======
+        self, *, instr: InstrIR | BlockIR, **kwargs: Any
+>>>>>>> upstream/main
     ) -> Result | ErrorHandler:
         """
         Transforms each of the instructions into an OpenQASM v2 code or
@@ -195,16 +232,17 @@ class LowLeveQLang(BaseLowLevelQLang):
         """
 
         code = ""
-        code += "\n".join(self.init_qlang()) + "\n"
+        code += "\n".join(self.init_qlang()) + "\n\n"
 
-        for instr in self._code:
+        for instr in self._code:  # type: ignore [attr-defined]
 
             if instr.args:
 
                 match gen_args := self.gen_args(instr.args):
 
                     case Ok():
-                        code += "\n".join(gen_args.result()) + "\n"
+                        if gen_args.result():
+                            code += "\n".join(gen_args.result()) + "\n"
 
                     # TODO: implement it better
                     case Error():

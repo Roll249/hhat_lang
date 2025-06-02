@@ -28,7 +28,7 @@ Example: [`if` statement](../dialects/heather/current_syntax.md#8-conditional-st
 It has the structure:
 
 ```
-id { body }
+id (args) { body }
 ```
 
 

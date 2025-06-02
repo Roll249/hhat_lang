@@ -1,3 +1,5 @@
+# type: ignore
+
 from __future__ import annotations
 
 from typing import Any, cast
@@ -35,7 +37,8 @@ def define_compositeid(code: CompositeId) -> CompositeSymbol:
 
 
 def define_literal(code: Literal) -> CoreLiteral:
-    return CoreLiteral(code.value[0], code.name)
+    value = cast(str, code.value[0])
+    return CoreLiteral(value, code.name)
 
 
 def define_argvaluepair(code: ArgValuePair) -> tuple[Symbol, Any]:

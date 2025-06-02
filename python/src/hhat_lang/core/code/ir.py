@@ -54,6 +54,7 @@ class BlockIR(ABC):
     To hold tuple of instructions (`InstrIR`) and blocks (`BlockIR`).
     """
 
+    name: str
     _instrs: tuple[InstrIR | BlockIR, ...]
 
     def __getitem__(self, item: int) -> InstrIR | BlockIR:
